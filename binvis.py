@@ -110,7 +110,7 @@ def drawmap_square(map, size, csource, name, prog):
             prog.tick(i)
     c.save(name)
 
-def multy_folder(input,dst):
+def multi_folder(input,dst):
 
     map_hil = 'hilbert'
     size = 256
