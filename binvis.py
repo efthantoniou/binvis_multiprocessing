@@ -3,6 +3,7 @@ import os.path, math, string, sys
 import scurve
 from scurve import progress, utils, draw
 from PIL import Image, ImageDraw
+import multiprocessing
 
 
 class _Color:
@@ -71,6 +72,23 @@ class ColorEntropy(_Color):
             int(255*b)
         ]
 
+def test_function():
+    sofar = 0
+
+    for i, p in enumerate(map):
+        off = (i + (quad * size**2))
+        color = csource.point(
+                    int(off * step)
+                )
+        x, y = tuple(p)
+        cd.point(
+            (x, y + (size * quad)),
+            fill=tuple(color)
+        )
+        if not sofar%100:
+            prog.tick(sofar)
+        sofar += 1
+
 
 def drawmap_unrolled(map, size, csource, name, prog):
     prog.set_target((size**2)*4)
@@ -79,9 +97,10 @@ def drawmap_unrolled(map, size, csource, name, prog):
     cd = ImageDraw.Draw(c)
     step = len(csource)/float(len(map)*4)
 
-    sofar = 0
+    #sofar = 0
     for quad in range(4):
-        for i, p in enumerate(map):
+
+        """for i, p in enumerate(map):
             off = (i + (quad * size**2))
             color = csource.point(
                         int(off * step)
@@ -94,6 +113,7 @@ def drawmap_unrolled(map, size, csource, name, prog):
             if not sofar%100:
                 prog.tick(sofar)
             sofar += 1
+        """
     c.save(name)
 
 
