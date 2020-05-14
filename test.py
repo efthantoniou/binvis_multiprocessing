@@ -24,7 +24,7 @@ def calc(name):
 
     dst= folder +'images/'+ os.path.basename(name) + '.png'
 
-    binvis.run_for_me(name, dst)
+    binvis.multi_folder(name, dst)
 
     pbar.update(multiprocessing.cpu_count() / 2)
 
