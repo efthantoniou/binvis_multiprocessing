@@ -10,11 +10,14 @@ import math
 USAGE = 2
 
 def check_duplicates(folder, dst):
-    target = [os.path.basename(file) for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
+    target = [os.path.basename(file) \
+        for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
 
-    dest = [os.path.basename(file.rsplit(".", 1)[0]) for file in glob.iglob(dst + '*') if not os.path.isdir(file)]
+    dest = [os.path.basename(file.rsplit(".", 1)[0])\
+        for file in glob.iglob(dst + '*') if not os.path.isdir(file)]
 
-    continuation = [ (folder + item) for item in target if item not in dest]
+    continuation = [ (folder + item) for item in target\
+        if item not in dest]
 
     return continuation
 
@@ -32,7 +35,8 @@ def calc(name):
 def handler(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    p.map(calc, [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)])
+    p.map(calc, [file for file in glob.iglob(folder + '*')\
+        if not os.path.isdir(file)])
 
 def handler_continue(folder):
 
@@ -51,7 +55,8 @@ if __name__ == '__main__':
     else:
         os.mkdir(folder + 'images/')
 
-        pbar = tqdm(total=len([log for log in glob.iglob(folder + '*') if not os.path.isdir(log)]), desc='Files: ',position=0, ascii=True )
+        pbar = tqdm(total=len([log for log in glob.iglob(folder + '*')\
+            if not os.path.isdir(log)]), desc='Files: ',position=0, ascii=True )
 
         handler(folder)
 
