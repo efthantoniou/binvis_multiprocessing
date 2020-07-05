@@ -56,7 +56,8 @@ if __name__ == '__main__':
         os.mkdir(folder + 'images/')
 
         pbar = tqdm(total=len([log for log in glob.iglob(folder + '*')\
-            if not os.path.isdir(log)]), desc='Files: ',position=0, ascii=True )
+            if not os.path.isdir(log)]), desc='Files: ',position=0,\
+            ascii=True )
 
         handler(folder)
 
