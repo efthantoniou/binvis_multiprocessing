@@ -1,3 +1,5 @@
 __pycache__
 scurve/__pycache__
 binvis.pyc
+scurve/*.pyc
+
