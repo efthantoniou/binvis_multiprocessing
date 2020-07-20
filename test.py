@@ -10,14 +10,16 @@ import math
 USAGE = 2
 
 def check_duplicates(folder, dst):
-    target = [os.path.basename(file) \
-        for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
+    target = set([os.path.basename(file) \
+        for file in glob.iglob(folder + '*') if not os.path.isdir(file)]) #
 
-    dest = [os.path.basename(file.rsplit(".", 1)[0])\
-        for file in glob.iglob(dst + '*') if not os.path.isdir(file)]
+    dest = set([os.path.basename(file.rsplit(".", 1)[0])\
+        for file in glob.iglob(dst + '*') if not os.path.isdir(file)]) #images
 
-    continuation = [ (folder + item) for item in target\
-        if item not in dest]
+    #continuation = [ (folder + item) for item in target\
+    #    if item not in dest]
+
+    continuation = list(target.symmetric_difference(dest))
 
     return continuation
 
