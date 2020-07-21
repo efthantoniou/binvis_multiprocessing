@@ -95,6 +95,7 @@ def drawmap_unrolled(map, size, csource, name, prog):
                 prog.tick(sofar)
             sofar += 1
     c.save(name)
+    c.close()
 
 
 def drawmap_square(map, size, csource, name, prog):

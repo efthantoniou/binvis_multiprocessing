@@ -10,16 +10,14 @@ import math
 USAGE = 2
 
 def check_duplicates(folder, dst):
-    target = set([os.path.basename(file) \
+    target = set([ (folder + os.path.basename(file)) \
         for file in glob.iglob(folder + '*') if not os.path.isdir(file)]) #
 
-    dest = set([os.path.basename(file.rsplit(".", 1)[0])\
+    dest = set([ (folder + os.path.basename(file.rsplit(".", 1)[0]))\
         for file in glob.iglob(dst + '*') if not os.path.isdir(file)]) #images
 
-    #continuation = [ (folder + item) for item in target\
-    #    if item not in dest]
-
     continuation = list(target.symmetric_difference(dest))
+    #continuation = [(folder + item) for item in continuation]
 
     return continuation
 
@@ -29,6 +27,7 @@ def calc(name):
 
     dst= folder +'images/'+ os.path.basename(name) + '.png'
 
+
     binvis.multi_folder(name, dst)
 
     pbar.update(multiprocessing.cpu_count() / USAGE)
@@ -37,6 +36,9 @@ def calc(name):
 def handler(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
+    # with multiprocessing.Pool(multiprocessing.cpu_count() / USAGE) as p:
+    #   temp = [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
+    #   r = list(tqdm( p.map(calc, ), total=len(temp)))
     p.map(calc, [file for file in glob.iglob(folder + '*')\
         if not os.path.isdir(file)])
 
@@ -47,7 +49,7 @@ def handler_continue(folder):
 
 if __name__ == '__main__':
 
-    folder = '/mnt/f/malware_backup/test/'
+    folder = '/mnt/f/malware_backup/00320/'
 
     if os.path.isdir(folder + 'images/'):
 
