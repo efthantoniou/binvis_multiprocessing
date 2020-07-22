@@ -17,12 +17,9 @@ from time import time, sleep
 class _Color:
     def __init__(self, data, block):
         self.data, self.block = data, block
-        #print("\t{}".format(type(block))) NoneType
-        #print("\t{}".format(type(self.data))) str
         s = list(set(data))
         s.sort()
         self.symbol_map = {v : i for (i, v) in enumerate(s)}
-        #print("\t{}".format(type(self.symbol_map)))
 
     def __len__(self):
         return len(self.data)
@@ -93,7 +90,6 @@ def drawmap_unrolled(map, size, csource, name, prog):
 
     sofar = 0
     for quad in range(4):
-        start = time()
         for i, p in enumerate(map):
             off = (i + (quad * size**2))
             color = csource.point(
@@ -108,8 +104,6 @@ def drawmap_unrolled(map, size, csource, name, prog):
             if not sofar%100:
                 prog.tick(sofar)
             sofar += 1
-        end = time()
-        print("Elapsed time: {}".format(end - start))
     c.save(name)
     c.close()
 
