@@ -11,14 +11,12 @@ USAGE = 2
 
 def check_duplicates(folder, dst):
     target = set([ (folder + os.path.basename(file)) \
-        for file in glob.iglob(folder + '*') if not os.path.isdir(file)]) #
+        for file in glob.iglob(folder + '*') if not os.path.isdir(file)])
 
     dest = set([ (folder + os.path.basename(file.rsplit(".", 1)[0]))\
-        for file in glob.iglob(dst + '*') if not os.path.isdir(file)]) #images
+        for file in glob.iglob(dst + '*') if not os.path.isdir(file)])
 
     continuation = list(target.symmetric_difference(dest))
-    #continuation = [(folder + item) for item in continuation]
-
     return continuation
 
 
@@ -36,9 +34,6 @@ def calc(name):
 def handler(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    # with multiprocessing.Pool(multiprocessing.cpu_count() / USAGE) as p:
-    #   temp = [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
-    #   r = list(tqdm( p.map(calc, ), total=len(temp)))
     p.map(calc, [file for file in glob.iglob(folder + '*')\
         if not os.path.isdir(file)])
 
@@ -49,7 +44,7 @@ def handler_continue(folder):
 
 if __name__ == '__main__':
 
-    folder = '/mnt/f/malware_backup/00320/'
+    folder = '/mnt/f/malware_backup/test/'
 
     if os.path.isdir(folder + 'images/'):
 
