@@ -3,14 +3,26 @@ import os.path, math, string, sys
 import scurve
 from scurve import progress, utils, draw
 from PIL import Image, ImageDraw
+from time import time, sleep
+#from numba import jit, njit, jitclass
+#from numba.types import string
 
+#spec_color = [
+#    ('data', string[:]),
+#    ('block', ),
+#    ('symbol_map', )
+#]
 
+#@jitclass(spec_color)
 class _Color:
     def __init__(self, data, block):
         self.data, self.block = data, block
+        #print("\t{}".format(type(block))) NoneType
+        #print("\t{}".format(type(self.data))) str
         s = list(set(data))
         s.sort()
         self.symbol_map = {v : i for (i, v) in enumerate(s)}
+        #print("\t{}".format(type(self.symbol_map)))
 
     def __len__(self):
         return len(self.data)
@@ -31,7 +43,7 @@ class ColorGradient(_Color):
             int(255*c)
         ]
 
-
+#@jitclass()
 class ColorHilbert(_Color):
     def __init__(self, data, block):
         _Color.__init__(self, data, block)
@@ -42,7 +54,7 @@ class ColorHilbert(_Color):
         c = self.symbol_map[self.data[x]]
         return self.csource.point(int(c*self.step))
 
-
+#@jitclass()
 class ColorClass(_Color):
     def getPoint(self, x):
         c = ord(self.data[x])
@@ -71,7 +83,7 @@ class ColorEntropy(_Color):
             int(255*b)
         ]
 
-
+#@jit(nopython=True, parallel=True)
 def drawmap_unrolled(map, size, csource, name, prog):
     prog.set_target((size**2)*4)
     map = scurve.fromSize(map, 2, size**2)
@@ -81,12 +93,14 @@ def drawmap_unrolled(map, size, csource, name, prog):
 
     sofar = 0
     for quad in range(4):
+        start = time()
         for i, p in enumerate(map):
             off = (i + (quad * size**2))
             color = csource.point(
                         int(off * step)
                     )
             x, y = tuple(p)
+            start = time()
             cd.point(
                 (x, y + (size * quad)),
                 fill=tuple(color)
@@ -94,6 +108,8 @@ def drawmap_unrolled(map, size, csource, name, prog):
             if not sofar%100:
                 prog.tick(sofar)
             sofar += 1
+        end = time()
+        print("Elapsed time: {}".format(end - start))
     c.save(name)
     c.close()
 

@@ -28,23 +28,24 @@ def calc(name):
 
     binvis.multi_folder(name, dst)
 
-    pbar.update(multiprocessing.cpu_count() / USAGE)
+    pbar.update(2)
 
 
 def handler(folder):
 
-    p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
+    #p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
+    p = multiprocessing.Pool(2)
 
     data = [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
 
     for _ in p.map(calc, data):
-        pbar.update(1)
+        pass
 
 def handler_continue(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
     for _ in p.map(calc, folder):
-        pbar.update(1)
+        pass
 
 if __name__ == '__main__':
 
@@ -69,4 +70,4 @@ if __name__ == '__main__':
 
 
 
-    #pbar.close()
+    pbar.close()
