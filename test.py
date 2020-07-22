@@ -34,13 +34,17 @@ def calc(name):
 def handler(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    p.map(calc, [file for file in glob.iglob(folder + '*')\
-        if not os.path.isdir(file)])
+
+    data = [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
+
+    for _ in p.map(calc, data):
+        pbar.update(1)
 
 def handler_continue(folder):
 
     p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    p.map(calc, folder)
+    for _ in p.map(calc, folder):
+        pbar.update(1)
 
 if __name__ == '__main__':
 
@@ -49,7 +53,10 @@ if __name__ == '__main__':
     if os.path.isdir(folder + 'images/'):
 
         check = check_duplicates(folder, folder + 'images/')
-        pbar = tqdm(total=len(check), desc='Files: ',position=0, ascii=True )
+
+        pbar = tqdm(total=len(check), desc='Files: ',position=0,\
+            ascii=True )
+
         handler_continue(check)
     else:
         os.mkdir(folder + 'images/')
@@ -62,4 +69,4 @@ if __name__ == '__main__':
 
 
 
-    pbar.close()
+    #pbar.close()
