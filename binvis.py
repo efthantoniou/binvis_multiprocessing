@@ -4,16 +4,7 @@ import scurve
 from scurve import progress, utils, draw
 from PIL import Image, ImageDraw
 from time import time, sleep
-#from numba import jit, njit, jitclass
-#from numba.types import string
 
-#spec_color = [
-#    ('data', string[:]),
-#    ('block', ),
-#    ('symbol_map', )
-#]
-
-#@jitclass(spec_color)
 class _Color:
     def __init__(self, data, block):
         self.data, self.block = data, block
@@ -40,7 +31,6 @@ class ColorGradient(_Color):
             int(255*c)
         ]
 
-#@jitclass()
 class ColorHilbert(_Color):
     def __init__(self, data, block):
         _Color.__init__(self, data, block)
@@ -51,7 +41,6 @@ class ColorHilbert(_Color):
         c = self.symbol_map[self.data[x]]
         return self.csource.point(int(c*self.step))
 
-#@jitclass()
 class ColorClass(_Color):
     def getPoint(self, x):
         c = ord(self.data[x])

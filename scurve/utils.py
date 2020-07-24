@@ -9,6 +9,7 @@ import math
 
 @jit(nopython=True)
 def graycode(x):
+    return np.bitwise_xor(x, np.right_shift(x, 1))
     return x^(x>>1)
 
 @jit(nopython=True)
@@ -61,7 +62,6 @@ def rrot(x, i, width):
     x = (x>>i) | (x<<width-i)
     return x&(2**width-1)
 
-
 def lrot(x, i, width):
     """
         Left bit-rotation.
@@ -85,7 +85,6 @@ def tsb(x, width):
         i += 1
     return i
 
-
 def setbit(x, w, i, b):
     """
         Sets bit i in an integer x of width w to b.
@@ -97,7 +96,6 @@ def setbit(x, w, i, b):
         return x | 2**(w-i-1)
     else:
         return x & ~2**(w-i-1)
-
 
 def bitrange(x, width, start, end):
     """
