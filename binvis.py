@@ -2,6 +2,7 @@
 import os.path, math, string, sys
 import scurve
 from scurve import progress, utils, draw
+from time import time
 from PIL import Image, ImageDraw
 
 
@@ -121,7 +122,10 @@ def multi_folder(input,dst):
     csource = ColorClass(d, None)
     prog = progress.Dummy()
 
+    start = time()
     drawmap_unrolled(map_hil, size, csource, dst, prog)
+    end = time()
+    print("Time elapsed: {}".format(end - start))
 
 
 
