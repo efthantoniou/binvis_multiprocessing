@@ -96,7 +96,6 @@ def drawmap_unrolled(map, size, csource, name, prog):
                         int(off * step)
                     )
             x, y = tuple(p)
-            start = time()
             cd.point(
                 (x, y + (size * quad)),
                 fill=tuple(color)
@@ -131,7 +130,10 @@ def multi_folder(input,dst):
     csource = ColorClass(d, None)
     prog = progress.Dummy()
 
+    start = time()
     drawmap_unrolled(map_hil, size, csource, dst, prog)
+    end = time()
+    print("Time elapsed: {}".format(end - start))
 
 
 

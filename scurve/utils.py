@@ -2,22 +2,29 @@
     A lot of these functions are written for clarity rather than speed. We'll
     fix that in time.
 """
+import numpy as np
+from numba import jit
+from numba.typed import List
 import math
 
+@jit(nopython=True)
 def graycode(x):
     return x^(x>>1)
 
-
-def igraycode(x):
+@jit(nopython=True)
+def igraycode(value):
     """
         Inverse gray code.
     """
+
+    x = List([np.int64(value)])
+
     if x == 0:
-        return x
-    m = int(math.ceil(math.log(x, 2)))+1
-    i, j = x, 1
+        return x[0]
+    m = np.int64(np.ceil(np.log2(x[0])))+1
+    i, j = x[0], 1
     while j < m:
-        i = i ^ (x>>j)
+        i = i ^ (x[0]>>j)
         j += 1
     return i
 
