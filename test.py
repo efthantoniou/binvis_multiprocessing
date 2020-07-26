@@ -1,4 +1,4 @@
-import multiprocessing
+import multiprocessing as mp
 from time import sleep, time
 import binvis
 import os
@@ -19,33 +19,51 @@ def check_duplicates(folder, dst):
     continuation = list(target.symmetric_difference(dest))
     return continuation
 
+def get_result(result):
+    global results
+    results.append(result)
 
 
-def calc(name):
+
+
+def calc(i, name):
 
     dst= folder +'images/'+ os.path.basename(name) + '.png'
 
 
     binvis.multi_folder(name, dst)
 
-    pbar.update(multiprocessing.cpu_count() / USAGE)
+    pbar.update(mp.cpu_count() / USAGE)
+
+    return (i, name)
 
 
 def handler(folder):
 
-    p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    p.map(calc, [file for file in glob.iglob(folder + '*')\
-        if not os.path.isdir(file)])
+    pool = mp.Pool(mp.cpu_count() / USAGE)
+    #p.map(calc, [file for file in glob.iglob(folder + '*')\
+    #    if not os.path.isdir(file)])
+    temp = [file for file in glob.iglob(folder + '*') if not os.path.isdir(file)]
+    for i, name in enumerate(temp):
+        pool.apply_async(calc, args=(i, name), callback=get_result)
+    pool.close()
+    pool.join()
 
 def handler_continue(folder):
 
-    p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
-    p.map(calc, folder)
+    pool = mp.Pool(mp.cpu_count() / USAGE)
+    #p.map(calc, folder)
+    for i, name in enumerate(folder):
+        pool.apply_async(calc, args=(i, name), callback=get_result)
+    pool.close()
+    pool.join()
 
 if __name__ == '__main__':
 
-    folder = '/mnt/f/malware_backup/test/'
+    folder = '/mnt/f/malware_backup/00322/'
 
+    results = list()
+    start = time()
     if os.path.isdir(folder + 'images/'):
 
         check = check_duplicates(folder, folder + 'images/')
@@ -59,6 +77,7 @@ if __name__ == '__main__':
             ascii=True )
 
         handler(folder)
+    print("Elapsed time: ", time() - start)
 
 
 
