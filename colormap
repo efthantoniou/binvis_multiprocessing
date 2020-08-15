@@ -14,8 +14,8 @@ def sortedPixels(csource, img, quiet):
             img.size[0]*img.size[1],
             "Analysing image"
         )
-    for x in range(img.size[0]):
-        for y in range(img.size[1]):
+    for x in xrange(img.size[0]):
+        for y in xrange(img.size[1]):
             p = img.getpixel((x, y))
             decorated.append(
                 (csource.index(p), p)
@@ -72,7 +72,7 @@ def main():
     map = scurve.fromSize(options.map, 2, options.size**2)
     p = sortedPixels(csource, args[0], options.quiet)
     drawmap(map, p, args[1], options.quiet)
-    
+
 
 
 main()

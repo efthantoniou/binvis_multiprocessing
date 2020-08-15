@@ -5,6 +5,8 @@ import os
 from tqdm import tqdm
 import glob
 import math
+import sys
+import argparse
 
 
 USAGE = 2
@@ -43,6 +45,14 @@ def handler_continue(folder):
     p.map(calc, folder)
 
 if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-pf', '--profiling', type=str, help='Give ful path name of file.')
+    args = parser.parse_args()
+
+    if args.profiling:
+        binvis.profiling(args.profiling, args.profiling + '.png')
+        sys.exit(0)
 
     folder = '/mnt/f/malware_backup/test/'
 

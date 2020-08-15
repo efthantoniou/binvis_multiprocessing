@@ -55,7 +55,7 @@ class ZigZag:
     def point(self, idx):
         p = []
         flip = False
-        for i in range(self.dimension-1, -1, -1):
+        for i in xrange(self.dimension-1, -1, -1):
             v = idx/(self.size**i)
             if i > 0:
                 idx = idx - (self.size**i)*v

@@ -5,7 +5,7 @@ class TestHcurve:
     def test_xycor(self):
         n = 4
         h = hcurve.Hcurve(2, n)
-        for i in range(n*n):
+        for i in xrange(n*n):
             assert h.xcor(i, n) < n
             assert h.ycor(i, n) < n
 

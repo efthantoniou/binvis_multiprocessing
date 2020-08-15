@@ -13,7 +13,7 @@ class TestFunctions:
         assert utils.graycode(4) == 6
 
     def test_igraycode(self):
-        for i in range(10):
+        for i in xrange(10):
             assert utils.igraycode(utils.graycode(i)) == i
             assert utils.graycode(utils.igraycode(i)) == i
 
@@ -63,6 +63,6 @@ class TestFunctions:
     def test_entropy(self):
         tutils.raises(ValueError, utils.entropy, "foo", 64, 0)
         assert utils.entropy("a"*64, 64, 1) == 0
-        d = "".join([chr(i) for i in range(256)])
+        d = "".join([chr(i) for i in xrange(256)])
         assert utils.entropy(d, 64, 1) == 1
 

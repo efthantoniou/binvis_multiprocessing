@@ -10,7 +10,7 @@ class TestFunctions:
         """
         l = math.log(i, 2)
         return l == int(l)
-    
+
     def is_hilbertcube(self, lst):
         """
             Does this list visit every vertex on the n-dimensional unit cube
@@ -31,15 +31,15 @@ class TestFunctions:
     def transform_pair(self, a, entry, direction, width):
         r = transform(entry, direction, width, a)
         assert a == itransform(entry, direction, width, r)
-    
+
     def test_transform(self):
-        for width in range(2, 5):
-            g = [utils.graycode(i) for i in range(2**width)]
+        for width in xrange(2, 5):
+            g = [utils.graycode(i) for i in xrange(2**width)]
             # Sanity: the gray sequence should be a Hilbert cube too
             self.is_hilbertcube(g)
 
-            for e in range(2**width):
-                for d in range(width):
+            for e in xrange(2**width):
+                for d in xrange(width):
                     x = [hilbert.transform(e, d, width, i) for i in g]
 
                     # From Lemma 2.11 of Hamilton
@@ -60,7 +60,7 @@ class TestFunctions:
     def test_hilbert_point(self):
         for n in [2, 3, 4]:
             m = 3
-            for i in range(2**(n*m)):
+            for i in xrange(2**(n*m)):
                 v = hilbert.hilbert_point(n, m, i)
                 assert i == hilbert.hilbert_index(n, m, v)
 

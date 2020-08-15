@@ -43,7 +43,7 @@ class ZOrder:
         p.reverse()
         idx = 0
         iwidth = self.bits * self.dimension
-        for i in range(iwidth):
+        for i in xrange(iwidth):
             bitoff = self.bits-(i/self.dimension)-1
             poff = self.dimension-(i%self.dimension)-1
             b = utils.bitrange(p[poff], self.bits, bitoff, bitoff+1) << i
@@ -53,7 +53,7 @@ class ZOrder:
     def point(self, idx):
         p = [0]*self.dimension
         iwidth = self.bits * self.dimension
-        for i in range(iwidth):
+        for i in xrange(iwidth):
             b = utils.bitrange(idx, iwidth, i, i+1) << (iwidth-i-1)/self.dimension
             p[i%self.dimension] |= b
         p.reverse()

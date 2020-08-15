@@ -28,7 +28,7 @@ def bits(n, width):
     """
     assert n < 2**width
     bin = []
-    for i in range(width):
+    for i in xrange(width):
         bin.insert(0, 1 if n&(1<<i) else 0)
     return bin
 

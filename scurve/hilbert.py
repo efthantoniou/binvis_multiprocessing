@@ -49,11 +49,11 @@ def hilbert_point(dimension, order, h):
     hwidth = order*dimension
     e, d = 0, 0
     p = [0]*dimension
-    for i in range(order):
+    for i in xrange(order):
         w = utils.bitrange(h, hwidth, i*dimension, i*dimension+dimension)
         l = utils.graycode(w)
         l = itransform(e, d, dimension, l)
-        for j in range(dimension):
+        for j in xrange(dimension):
             b = utils.bitrange(l, dimension, j, j+1)
             p[j] = utils.setbit(p[j], order, i, b)
         e = e ^ utils.lrot(entry(w), d+1, dimension)

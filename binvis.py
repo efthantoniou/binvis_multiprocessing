@@ -81,7 +81,7 @@ def drawmap_unrolled(map, size, csource, name, prog):
     step = len(csource)/float(len(map)*4)
 
     sofar = 0
-    for quad in range(4):
+    for quad in xrange(4):
         for i, p in enumerate(map):
             off = (i + (quad * size**2))
             color = csource.point(
@@ -114,6 +114,17 @@ def drawmap_square(map, size, csource, name, prog):
 
 def multi_folder(input,dst):
 
+    map_hil = 'hilbert'
+    size = 256
+
+    d = file(input).read()
+
+    csource = ColorClass(d, None)
+    prog = progress.Dummy()
+
+    drawmap_unrolled(map_hil, size, csource, dst, prog)
+
+def profiling(input, dst):
     map_hil = 'hilbert'
     size = 256
 
