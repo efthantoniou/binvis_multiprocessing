@@ -73,9 +73,15 @@ def tsb(x, width):
     """
     assert x < 2**width
     i = 0
-    while x&1 and i <= width:
-        x = x >> 1
-        i += 1
+    for i in xrange(width+1):
+        if x&1:
+            x = x >>1
+        else:
+            break
+
+    """while x&1 and i <= width:
+                    x = x >> 1
+                    i += 1"""
     return i
 
 
