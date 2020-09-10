@@ -48,14 +48,11 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-pf', '--profiling', type=str, help='Give ful path name of file for profiling.')
-    parser.add_argument('-s', '--source', type=str, help='Give folder with binaries to save images.')
+    parser.add_argument('-s', '--source', type=str, help='Give folder with binaries to save images. Format(/folder/folder/)')
     args = parser.parse_args()
 
     if args.profiling:
         binvis.profiling(args.profiling, args.profiling + '.png')
-        sys.exit(0)
-    else:
-        print("No input was provided. Check the help!")
         sys.exit(0)
 
 
@@ -63,6 +60,9 @@ if __name__ == '__main__':
     if args.source:
         folder = args.source
         print(folder)
+        sys.exit(0)
+    else:
+        print("No input was provided. Check the help!")
         sys.exit(0)
 
     if os.path.isdir(folder + 'images/'):
