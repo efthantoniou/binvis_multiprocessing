@@ -9,8 +9,6 @@ import sys
 import argparse
 
 
-USAGE = 2
-
 def check_duplicates(folder, dst):
     target = set([ (folder + os.path.basename(file)) \
         for file in glob.iglob(folder + '*') if not os.path.isdir(file)])
@@ -30,25 +28,30 @@ def calc(name):
 
     binvis.multi_folder(name, dst)
 
-    pbar.update(multiprocessing.cpu_count() / USAGE)
+    pbar.update(args.cores)
 
 
 def handler(folder):
 
-    p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
+    p = multiprocessing.Pool(args.cores)
     p.map(calc, [file for file in glob.iglob(folder + '*')\
         if not os.path.isdir(file)])
+    p.close()
+    p.join()
 
 def handler_continue(folder):
 
-    p = multiprocessing.Pool(multiprocessing.cpu_count() / USAGE)
+    p = multiprocessing.Pool(args.cores)
     p.map(calc, folder)
+    p.close()
+    p.join()
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-pf', '--profiling', type=str, help='Give ful path name of file for profiling.')
+    parser.add_argument('-pf', '--profiling', type=str, help='Give full path name of file for profiling.')
     parser.add_argument('-s', '--source', type=str, help='Give folder with binaries to save images. Format(/folder/folder/)')
+    parser.add_argument('-c', '--cores', type=int, default=1, help='Number of cores to utilize')
     args = parser.parse_args()
 
     if args.profiling:
@@ -60,7 +63,6 @@ if __name__ == '__main__':
     if args.source:
         folder = args.source
         print(folder)
-        sys.exit(0)
     else:
         print("No input was provided. Check the help!")
         sys.exit(0)
