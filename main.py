@@ -9,6 +9,11 @@ import sys
 import argparse
 
 
+
+
+destination = '../images/'
+
+
 def check_duplicates(folder, dst):
     target = set([ (folder + os.path.basename(file)) \
         for file in glob.iglob(folder + '*') if not os.path.isdir(file)])
@@ -22,8 +27,14 @@ def check_duplicates(folder, dst):
 
 
 def calc(name):
+    
+    temp1 = name.split('/')[-2]
+    temp2 = name.split('/')[-1]
+    
+    if not os.path.exists(folder + destination + temp1):
+        os.makedirs(folder + destination + temp1)
 
-    dst= folder +'images/'+ os.path.basename(name) + '.png'
+    dst = folder + destination + temp1 + '/' + temp2 + '.png'
 
 
     binvis.multi_folder(name, dst)
@@ -34,17 +45,16 @@ def calc(name):
 def handler(folder):
 
     p = multiprocessing.Pool(args.cores)
-    p.map(calc, [file for file in glob.iglob(folder + '*')\
-        if not os.path.isdir(file)])
+    p.map(calc, [file for file in glob.iglob(folder + '**/*')])
     p.close()
     p.join()
 
-def handler_continue(folder):
+"""def handler_continue(folder):
 
     p = multiprocessing.Pool(args.cores)
     p.map(calc, folder)
     p.close()
-    p.join()
+    p.join()"""
 
 if __name__ == '__main__':
 
@@ -59,7 +69,6 @@ if __name__ == '__main__':
         sys.exit(0)
 
 
-    # for linux '/media/zed/5D37E7DF3908DF19/fkappa/malware_backup/' on windows '/mnt/f/malware_backup/test/'
     if args.source:
         folder = args.source
         print(folder)
@@ -67,15 +76,16 @@ if __name__ == '__main__':
         print("No input was provided. Check the help!")
         sys.exit(0)
 
-    if os.path.isdir(folder + 'images/'):
+    if os.path.isdir(folder + destination):
 
         check = check_duplicates(folder, folder + 'images/')
         pbar = tqdm(total=len(check), desc='Files: ',position=0, ascii=True )
-        handler_continue(check)
+        print('The function handler_continue is under maintenance.')
+        #handler_continue(check)
     else:
-        os.mkdir(folder + 'images/')
+        os.mkdir(folder + destination)
 
-        pbar = tqdm(total=len([log for log in glob.iglob(folder + '*')\
+        pbar = tqdm(total=len([log for log in glob.iglob(folder + '**/*')\
             if not os.path.isdir(log)]), desc='Files: ',position=0,\
             ascii=True )
 
