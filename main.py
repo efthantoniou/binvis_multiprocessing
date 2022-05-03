@@ -49,12 +49,12 @@ def handler(folder):
     p.close()
     p.join()
 
-"""def handler_continue(folder):
+def handler_continue(folder):
 
     p = multiprocessing.Pool(args.cores)
     p.map(calc, folder)
     p.close()
-    p.join()"""
+    p.join()
 
 if __name__ == '__main__':
 
@@ -81,7 +81,7 @@ if __name__ == '__main__':
         check = check_duplicates(folder, folder + 'images/')
         pbar = tqdm(total=len(check), desc='Files: ',position=0, ascii=True )
         print('The function handler_continue is under maintenance.')
-        #handler_continue(check)
+        handler_continue(check)
     else:
         os.mkdir(folder + destination)
 
